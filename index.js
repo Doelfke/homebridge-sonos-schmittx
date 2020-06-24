@@ -198,10 +198,7 @@ SonosAccessory.prototype.search = function () {
 }
 
 SonosAccessory.prototype.getServices = function () {
-  if (this.enableSpeakerService) {
     return [this.accessoryInformationService, this.switchService, this.speakerService];
-  }
-  return [this.accessoryInformationService, this.switchService];
 }
 
 SonosAccessory.prototype.getOn = function (callback) {
