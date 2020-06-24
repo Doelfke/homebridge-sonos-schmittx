@@ -370,5 +370,5 @@ SonosAccessory.prototype.setVolume = function (volume, callback) {
 module.exports = function (homebridge) {
   Service = homebridge.hap.Service;
   Characteristic = homebridge.hap.Characteristic;
-  homebridge.registerAccessory("homebridge-sonos", "Sonos", SonosAccessory);
+  homebridge.registerAccessory("homebridge-sonos-schmittx", "Sonos", SonosAccessory);
 }
