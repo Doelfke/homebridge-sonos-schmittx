@@ -323,13 +323,8 @@ SonosAccessory.prototype.setMute = function (mute, callback) {
     return;
   }
   this.log("Setting mute to: %s", mute);
-  this.device.setMuted(mute, function (err, success) {
-    if (err) {
-      callback(err);
-    }
-    else {
+  this.device.setMuted(mute).then(function () {
       callback(null);
-    }
   }.bind(this));
 }
 
