@@ -278,23 +278,13 @@ SonosAccessory.prototype.setOn = function (on, callback) {
   }
   this.log("Setting power to: %s", on);
   if (on) {
-    this.device.play(function (err, success) {
-      if (err) {
-        callback(err);
-      }
-      else {
+    this.device.play.then(function (success) {
         callback(null);
-      }
     }.bind(this));
   }
   else {
-    this.device.pause(function (err, success) {
-        if (err) {
-          callback(err);
-        }
-        else {
-          callback(null);
-        }
+    this.device.pause.then(function (success) {
+        callback(null);
     }.bind(this));
   }
 }
@@ -305,14 +295,9 @@ SonosAccessory.prototype.getMute = function (callback) {
     callback(new Error("Sonos has not been discovered yet."));
     return;
   }
-  this.device.getMuted(function (err, state) {
-    if (err) {
-      callback(err);
-    }
-    else {
+  this.device.getMuted.then(function (state) {
       this.log("Current mute state: %s", state);
       callback(null, state);
-    }
   }.bind(this));
 }
 
@@ -334,14 +319,9 @@ SonosAccessory.prototype.getVolume = function (callback) {
     callback(new Error("Sonos has not been discovered yet."));
     return;
   }
-  this.device.getVolume(function (err, volume) {
-    if (err) {
-      callback(err);
-    }
-    else {
+  this.device.getVolume.then(function (volume) {
       this.log("Current volume: %s%", volume);
       callback(null, Number(volume));
-    }
   }.bind(this));
 }
 
@@ -352,13 +332,8 @@ SonosAccessory.prototype.setVolume = function (volume, callback) {
     return;
   }
   this.log("Setting volume to: %s%", volume);
-  this.device.setVolume(volume, function (err, data) {
-    if (err) {
-      callback(err);
-    }
-    else {
+  this.device.setVolume(volume).then(function (data) {
       callback(null);
-    }
   }.bind(this));
 }
 
