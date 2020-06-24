@@ -278,12 +278,12 @@ SonosAccessory.prototype.setOn = function (on, callback) {
   }
   this.log("Setting power to: %s", on);
   if (on) {
-    this.device.play.then(function (success) {
+    this.device.play().then(function (success) {
         callback(null);
     }.bind(this));
   }
   else {
-    this.device.pause.then(function (success) {
+    this.device.pause().then(function (success) {
         callback(null);
     }.bind(this));
   }
