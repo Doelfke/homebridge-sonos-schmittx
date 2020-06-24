@@ -295,7 +295,7 @@ SonosAccessory.prototype.getMute = function (callback) {
     callback(new Error("Sonos has not been discovered yet."));
     return;
   }
-  this.device.getMuted.then(function (state) {
+  this.device.getMuted().then(function (state) {
       this.log("Current mute state: %s", state);
       callback(null, state);
   }.bind(this));
@@ -319,7 +319,7 @@ SonosAccessory.prototype.getVolume = function (callback) {
     callback(new Error("Sonos has not been discovered yet."));
     return;
   }
-  this.device.getVolume.then(function (volume) {
+  this.device.getVolume().then(function (volume) {
       this.log("Current volume: %s%", volume);
       callback(null, Number(volume));
   }.bind(this));
