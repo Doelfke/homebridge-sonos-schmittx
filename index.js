@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('underscore');
-const Listener = require('sonos/lib/events/listener');
+const SonosListener = require('sonos/lib/events/SonosListener');
 const sonos = require('sonos');
 const Sonos = require('sonos').Sonos;
 
@@ -42,7 +42,7 @@ function getZoneGroupNames (zone) {
 }
 
 function listenGroupMgmtEvents (device) {
-  var devListener = new Listener(device);
+  var devListener = new SonosListener(device);
   devListener.listen(function (listenErr) {
     if (!listenErr) {
       devListener.addService('/GroupManagement/Event', function (addServErr, sid) {
