@@ -176,7 +176,7 @@ SonosAccessory.zoneTypeIsPlayable = function (zoneType) {
 }
 
 SonosAccessory.prototype.search = function () {
-  var search = sonos.search(function (device) {
+  var search = sonos.Search(function (device) {
     var host = device.host;
     this.log.debug("Found Sonos device at %s", host);
     device.deviceDescription(function (err, description) {
@@ -199,7 +199,7 @@ SonosAccessory.prototype.search = function () {
 
 SonosAccessory.prototype.oldSearch = function () {
   sonosAccessories.push(this);
-  var search = sonos.search(function (device, model) {
+  var search = sonos.Search(function (device, model) {
     this.log.debug("Found device at %s", device.host);
     var data = {ip: device.host, port: device.port, discoverycompleted: 'false'};
     device.getZoneAttrs(function (err, attrs) {
