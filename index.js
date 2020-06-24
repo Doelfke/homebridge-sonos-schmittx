@@ -179,7 +179,7 @@ SonosAccessory.prototype.search = function () {
   var search = sonos.Search(function (device) {
     var host = device.host;
     this.log.warn("Found Sonos device at %s", host);
-    device.deviceDescription().then(function (err, description) {
+    device.deviceDescription().then(function (description) {
       var zoneType = description["zoneType"];
       var roomName = description["roomName"];
       if (!SonosAccessory.zoneTypeIsPlayable(zoneType)) {
