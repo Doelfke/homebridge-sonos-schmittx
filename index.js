@@ -178,19 +178,19 @@ SonosAccessory.zoneTypeIsPlayable = function (zoneType) {
 SonosAccessory.prototype.search = function () {
   var search = sonos.Search(function (device) {
     var host = device.host;
-    this.log.debug("Found Sonos device at %s", host);
+    this.log.warn("Found Sonos device at %s", host);
     device.deviceDescription(function (err, description) {
       var zoneType = description["zoneType"];
       var roomName = description["roomName"];
       if (!SonosAccessory.zoneTypeIsPlayable(zoneType)) {
-        this.log.debug("Sonos device %s is not playable (has an unknown zone type of %s); ignoring", host, zoneType);
+        this.log.warn("Sonos device %s is not playable (has an unknown zone type of %s); ignoring", host, zoneType);
         return;
       }
       if (roomName != this.room) {
-        this.log.debug("Ignoring device %s because the room name '%s' does not match the desired name '%s'.", host, roomName, this.room);
+        this.log.warn("Ignoring device %s because the room name '%s' does not match the desired name '%s'.", host, roomName, this.room);
         return;
       }
-      this.log("Found a playable device at %s for room '%s'", host, roomName);
+      this.log.warn("Found a playable device at %s for room '%s'", host, roomName);
       this.device = device;
       search.socket.close();
     }.bind(this));
