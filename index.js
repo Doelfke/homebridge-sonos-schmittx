@@ -155,7 +155,7 @@ function SonosAccessory (log, config) {
     .on('get', this.getOn.bind(this))
     .on('set', this.setOn.bind(this));
 
-  this.speakerService = new Service.Light(this.name);
+  this.speakerService = new Service.Lightbulb(this.name);
 
   // this.speakerService
   //   .getCharacteristic(Characteristic.Mute)
