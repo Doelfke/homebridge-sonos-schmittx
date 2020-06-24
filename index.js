@@ -197,54 +197,6 @@ SonosAccessory.prototype.search = function () {
   }.bind(this));
 }
 
-SonosAccessory.prototype.oldSearch = function () {
-  sonosAccessories.push(this);
-  var search = sonos.Search(function (device, model) {
-    this.log.debug("Found device at %s", device.host);
-    var data = {ip: device.host, port: device.port, discoverycompleted: 'false'};
-    device.getZoneAttrs(function (err, attrs) {
-      if (!err && attrs) {
-        _.extend(data, {CurrentZoneName: attrs.CurrentZoneName});
-      }
-      device.getTopology(function (err, topology) {
-        if (!err && topology) {
-          topology.zones.forEach(function (group) {
-            if (group.location == 'http://' + data.ip + ':' + data.port + '/xml/device_description.xml') {
-              _.extend(data, group);
-              data.discoverycompleted = 'true';
-            }
-            else {
-              var grpDevIP = group.location.substring(7, group.location.lastIndexOf(":"));
-              var grpDevData = {ip: grpDevIP, discoverycompleted: 'false', CurrentZoneName: group.name};
-              _.extend(grpDevData, group);
-              if (sonosDevices.get(grpDevIP) == undefined) {
-                sonosDevices.set(grpDevIP, grpDevData);
-              }
-            }
-          }.bind(this));
-        }
-        if (sonosDevices.get(data.ip) == undefined) {
-          sonosDevices.set(data.ip, data);
-        }
-        else {
-          if (sonosDevices.get(data.ip).discoverycompleted == 'false') {
-            sonosDevices.set(data.ip, data);
-          }
-        }
-        var coordinator = getZoneGroupCoordinator(this.room);
-        if (coordinator != undefined) {
-          if (coordinator.ip == data.ip) {
-            this.log("Found a playable coordinator device at %s in zone '%s' for accessory '%s' in accessory room '%s'", data.ip, data.CurrentZoneName, this.name, this.room);
-            this.device = device;
-            search.destroy();
-          }
-        }
-        listenGroupMgmtEvents(device);
-      }.bind(this));
-    }.bind(this));
-  }.bind(this));
-}
-
 SonosAccessory.prototype.getServices = function () {
   if (this.enableSpeakerService) {
     return [this.accessoryInformationService, this.switchService, this.speakerService];
@@ -258,15 +210,10 @@ SonosAccessory.prototype.getOn = function (callback) {
     callback(new Error("Sonos has not been discovered yet."));
     return;
   }
-  this.device.getCurrentState(function (err, state) {
-    if (err) {
-      callback(err);
-    }
-    else {
+  this.device.getCurrentState().then(function (state) {
       this.log("Current state: %s", state);
       var on = (state === "playing");
       callback(null, on);
-    }
   }.bind(this));
 }
 
