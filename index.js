@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('underscore');
-const SonosListener = require('sonos/lib/events/SonosListener');
+const SonosListener = require('sonos/lib/events/adv-listener');
 const sonos = require('sonos');
 const Sonos = require('sonos').Sonos;
 
