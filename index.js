@@ -163,7 +163,7 @@ function SonosAccessory (log, config) {
     .on('set', this.setMute.bind(this));
 
   this.speakerService
-    .addCharacteristic(Characteristic.Volume)
+    .addCharacteristic(new Characteristic.Volume())
     .on('get', this.getVolume.bind(this))
     .on('set', this.setVolume.bind(this));
 
@@ -198,7 +198,10 @@ SonosAccessory.prototype.search = function () {
 }
 
 SonosAccessory.prototype.getServices = function () {
+  if (this.enableSpeakerService) {
     return [this.accessoryInformationService, this.switchService, this.speakerService];
+  }
+  return [this.accessoryInformationService, this.switchService];
 }
 
 SonosAccessory.prototype.getOn = function (callback) {
